@@ -1,14 +1,12 @@
-//
-// Created by andrew on 30.12.15.
-//
-
 #ifndef COLORTETRIS_COLORTETRIS_H
 #define COLORTETRIS_COLORTETRIS_H
 
+namespace gct {
 
 class ColorTetris {
 
 };
 
+} // gct
 
 #endif //COLORTETRIS_COLORTETRIS_H
