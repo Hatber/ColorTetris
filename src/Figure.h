@@ -3,6 +3,12 @@
 
 namespace gct {
 
+    class Figure {
+    public:
+        void rotate();
+        void transpose();
+    };
+
 } // gct
 
 #endif //COLORTETRIS_FIGURE_H
