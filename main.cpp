@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "src/Board.h"
+#include "Engine/ColorTetris.h"
+#include "Render.h"
 
 using namespace std;
 
@@ -9,7 +10,17 @@ const int ySize = 20;
 const int colorCount = 3;
 
 int main() {
-    gct::Board b(10, 20);
-    cout << "Hello, World!" << endl;
+    srand(time(0));
+
+    gct::ColorTetris ct(colorCount, xSize, ySize);
+    gct::Render render(ct);
+
+    while(true) {
+        render.show();
+
+        cin.get();
+        ct.Gravity();
+    }
+
     return 0;
 }

@@ -14,7 +14,12 @@ namespace gct {
 
     class Board : public Area {
     public:
-        Board(size_t xSize, size_t ySize) : Area(xSize, ySize) { }
+        Board(int xSize, int ySize) : Area(xSize, ySize, -1) {
+
+        }
+
+        bool freeSpace(rll::Point coord) { return freeSpace(coord.x(), coord.y()); }
+        bool freeSpace(int x, int y) { return getElement(x, y) == -1; }
 
     private:
 

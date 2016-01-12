@@ -1,5 +1,5 @@
-#ifndef POINT_HPP
-#define POINT_HPP
+#ifndef RLL_POINT_HPP
+#define RLL_POINT_HPP
 
 namespace rll {
 
@@ -36,4 +36,4 @@ namespace rll {
 
 } // rll
 
-#endif //POINT_HPP
+#endif //RLL_POINT_HPP

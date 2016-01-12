@@ -1,9 +1,13 @@
-#ifndef AREA_HPP
-#define AREA_HPP
+#ifndef RLL_AREA_HPP
+#define RLL_AREA_HPP
 
 #include "TPoint.hpp"
-
 #include <vector>
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
 
 namespace rll {
 
@@ -17,16 +21,19 @@ namespace rll {
         TArea(const Point& p, const T& initValue) : TArea(p.x(), p.y(), initValue) { }
         TArea(CoordinateT x, CoordinateT y) : TArea(x, y, T()) { }
         TArea(CoordinateT x, CoordinateT y, const T& initValue) : field(y, std::vector< T >(x, initValue)) {
+            cout << "Area!" << computeXSize() << " " << computeYSize() << endl;
             xSize = computeXSize();
             ySize = computeYSize();
         }
         TArea(const TArea& a) : field(a.field), xSize(a.xSize), ySize(a.ySize) { }
 
-        std::size_t getYSize() const { return ySize; }
-        std::size_t getXSize() const { return xSize; }
+        virtual ~TArea() = default;
+
+        int getYSize() const { return computeYSize(); }
+        int getXSize() const { return computeXSize(); }
 
         Point getSize()  const { return Point::makePoint(getXSize(), getYSize()); }
-        std::size_t getElementCount() const { return getYSize() * getXSize(); }
+        int getElementCount() const { return getYSize() * getXSize(); }
 
         T& at(const Point& p) { return at(p.x(), p.y()); }
         T& at(CoordinateT x, CoordinateT y) { return field/*[y][x]*/.at(y).at(x); }
@@ -63,15 +70,15 @@ namespace rll {
 
     protected:
         std::vector< std::vector< T > > field;
-        std::size_t xSize, ySize;
+        int xSize, ySize;
 
     private:
-        std::size_t computeYSize() const { return field.size(); }
-        std::size_t computeXSize() const { return field.size() ? field.front().size() : 0; }
+        int computeYSize() const { return (int)field.size(); }
+        int computeXSize() const { return (int)field.size() ? (int)field.front().size() : 0; }
     };
 
     typedef TArea< CoordinateT > Area;
 
 } // rll
 
-#endif //AREA_HPP
+#endif //RLL_AREA_HPP

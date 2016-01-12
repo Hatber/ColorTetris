@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.3)
 project(ColorTetris)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+include_directories("src/")
 
-set(SOURCE_FILES main.cpp src/Board.cpp src/Board.h src/ColorTetris.cpp src/ColorTetris.h src/Figure.h src/GameController.cpp src/GameController.h src/Render.cpp src/Render.h src/rll/ColorSet.cpp src/rll/ColorSet.hpp)
+set(SOURCE_FILES main.cpp src/Engine/Board.cpp src/Engine/ColorTetris.cpp src/GameController.cpp src/Render.cpp)
 add_executable(ColorTetris ${SOURCE_FILES})
