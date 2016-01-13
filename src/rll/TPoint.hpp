@@ -18,6 +18,7 @@ namespace rll {
         T& z() { return _z; }
 
         TPoint shift(const T& x, const T& y, const T& z = 0) const { return TPoint(_x + x, _y + y, _z + z); }
+        TPoint shift(const TPoint& p) const { return shift(p.x(), p.y(), p.z()); }
 
         bool operator == (const TPoint& p) const { return x()==p.x() and y()==p.y() and z()==p.z(); }
         bool operator != (const TPoint& p) const { return not (*this == p); }

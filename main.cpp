@@ -1,7 +1,6 @@
 #include <iostream>
 
-#include "Engine/ColorTetris.h"
-#include "Render.h"
+#include "GameController.h"
 
 using namespace std;
 
@@ -12,15 +11,8 @@ const int colorCount = 3;
 int main() {
     srand(time(0));
 
-    gct::ColorTetris ct(colorCount, xSize, ySize);
-    gct::Render render(ct);
-
-    while(true) {
-        render.show();
-
-        cin.get();
-        ct.Gravity();
-    }
+    gct::GameController gameController(colorCount, xSize, ySize);
+    gameController.loop();
 
     return 0;
 }

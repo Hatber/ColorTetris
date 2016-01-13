@@ -18,8 +18,8 @@ namespace gct {
 
         }
 
-        bool freeSpace(rll::Point coord) { return freeSpace(coord.x(), coord.y()); }
-        bool freeSpace(int x, int y) { return getElement(x, y) == -1; }
+        bool freeSpace(rll::Point coord) const { return freeSpace(coord.x(), coord.y()); }
+        bool freeSpace(int x, int y) const { return getElement(x, y) == -1; }
 
     private:
 

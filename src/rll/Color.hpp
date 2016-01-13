@@ -7,7 +7,9 @@ namespace rll {
     public:
         typedef unsigned char channelT;
 
+        Color() : Color(0, 0, 0) { }
         Color(channelT r, channelT g, channelT b) : _r(r), _g(g), _b(b) { }
+
         channelT& r() { return _r; }
         channelT& g() { return _g; }
         channelT& b() { return _b; }

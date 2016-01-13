@@ -3,7 +3,7 @@
 
 #include "Color.hpp"
 
-#include < vector >
+#include <vector>
 
 namespace rll {
 

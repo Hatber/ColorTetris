@@ -10,19 +10,30 @@ class ColorTetris {
 public:
     ColorTetris(int colorCount, int xSize, int ySize);
 
-    void GenerateNewFigure();
-    void DropFigure();
-    void RemoveMonochromeRegion();
-    void Gravity();
+    void generateNewFigure();
+    void dropFigure();
+    void fixFigure();
+    void removeMonochromeRegion();
+    void gravity();
 
-    bool SetNewFigureIsPosible();
-    bool DropFigureIsPosible();
-    bool GravityIsNeeded();
+    bool setNewFigureIsPosible();
+    bool dropFigureIsPosible();
+    bool gravityIsNeeded();
 
-//private:
+    void moveRight();
+    void moveLeft();
+    void rotate();
+    void transposeForward();
+    void transposeBackward();
+
+
+private:
     int getCenterXBoard();
     void renewFigurePosition();
-    void fixFigure();
+    bool isMoved(rll::Point way);
+
+    bool isOverlap(rll::Point coordinate, bool isVertical);
+    bool figureCoordinateInBorders(rll::Point coordinate);
 
     int _colorCount;
     Figure currentFigure, nextFigure;

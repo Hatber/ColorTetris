@@ -18,9 +18,14 @@ namespace gct {
         void rotate() {
             isVertical = !isVertical;
         }
-        void transpose() {
+
+        void transposeForward() {
             std::swap(colors[0], colors[2]);
             std::swap(colors[1], colors[2]);
+        }
+        void transposeBackward() {
+            std::swap(colors[1], colors[2]);
+            std::swap(colors[0], colors[2]);
         }
 
         bool isVertical;
