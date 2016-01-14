@@ -8,6 +8,7 @@ const int xSize = 10;
 const int ySize = 20;
 const int colorCount = 3;
 
+//TODO : Game bot
 int main() {
     srand(time(0));
 

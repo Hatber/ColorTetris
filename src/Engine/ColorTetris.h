@@ -16,8 +16,8 @@ public:
     void removeMonochromeRegion();
     void gravity();
 
-    bool setNewFigureIsPosible();
-    bool dropFigureIsPosible();
+    bool setNewFigureIsPossible();
+    bool dropFigureIsPossible();
     bool gravityIsNeeded();
 
     void moveRight();
@@ -35,12 +35,19 @@ private:
     bool isOverlap(rll::Point coordinate, bool isVertical);
     bool figureCoordinateInBorders(rll::Point coordinate);
 
+    bool regionContainFreeSpace(const rll::Area& regions, int regionId);
+    int  regionSize(const rll::Area& regions, int regionId);
+    void cleanRegion(const rll::Area& regions, int regionId);
+
+
     int _colorCount;
     Figure currentFigure, nextFigure;
     Board _board;
 
     int score;
     rll::Point figurePosition;
+
+    bool figureIsFixed;
 
     friend class Render;
 };

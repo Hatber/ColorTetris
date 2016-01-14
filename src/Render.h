@@ -6,11 +6,6 @@
 
 #include "libtcod.hpp"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
 namespace gct {
 
 class Render {
@@ -18,12 +13,14 @@ class Render {
 
 public:
     Render(ColorTetris &ct) : _ct(ct) {
-        TCODSystem::setFps(60);
+        TCODSystem::setFps(10);
         TCODConsole::root->setCustomFont("terminal.png", TCOD_FONT_LAYOUT_ASCII_INROW);
         TCODConsole::initRoot(_ct._board.getXSize(), _ct._board.getYSize(), "Color Tetris");
     }
 
     void show() const;
+    void showField() const;
+    void showFigure() const;
 
 private:
     const ColorTetris& _ct;

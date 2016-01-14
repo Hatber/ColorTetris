@@ -21,7 +21,6 @@ namespace rll {
         TArea(const Point& p, const T& initValue) : TArea(p.x(), p.y(), initValue) { }
         TArea(CoordinateT x, CoordinateT y) : TArea(x, y, T()) { }
         TArea(CoordinateT x, CoordinateT y, const T& initValue) : field(y, std::vector< T >(x, initValue)) {
-            cout << "Area!" << computeXSize() << " " << computeYSize() << endl;
             xSize = computeXSize();
             ySize = computeYSize();
         }
@@ -29,8 +28,8 @@ namespace rll {
 
         virtual ~TArea() = default;
 
-        int getYSize() const { return computeYSize(); }
-        int getXSize() const { return computeXSize(); }
+        int getYSize() const { return ySize; }
+        int getXSize() const { return xSize; }
 
         Point getSize()  const { return Point::makePoint(getXSize(), getYSize()); }
         int getElementCount() const { return getYSize() * getXSize(); }
@@ -49,8 +48,8 @@ namespace rll {
         void setElement(const Point& p, const T& element) { setElement(p.x(), p.y(), element); }
         void setElement(CoordinateT x, CoordinateT y, const T& element) { at(x, y) = element; }
 
-        bool borders(const Point& p) { return borders(p.x(), p.y()); }
-        bool borders(CoordinateT x, CoordinateT y) { return (x>=0 && x < getXSize()) && (y>=0 && y < getYSize()); }
+        bool borders(const Point& p) const { return borders(p.x(), p.y()); }
+        bool borders(CoordinateT x, CoordinateT y) const { return (x>=0 && x < getXSize()) && (y>=0 && y < getYSize()); }
 
         void resize(const Point& size) { resize(size.x(), size.y()); }
         void resize(CoordinateT x, CoordinateT y) {

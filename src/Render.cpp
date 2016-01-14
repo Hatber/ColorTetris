@@ -1,6 +1,13 @@
 #include "Render.h"
 
 void gct::Render::show() const {
+    showField();
+    if(!_ct.figureIsFixed) { showFigure(); }
+
+    TCODConsole::root->flush();
+}
+
+void gct::Render::showField() const {
     const Board &b = _ct._board;
     rll::Color c;
 
@@ -11,13 +18,17 @@ void gct::Render::show() const {
             } else {
                 c = colors.getColorByIndex(b.getElement(x, y));
                 TCODConsole::root->putCharEx(x, y, cellSymbol,
-                    TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
+                                             TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
             }
         }
     }
+}
 
+void gct::Render::showFigure() const {
     int x = _ct.figurePosition.x();
     int y = _ct.figurePosition.y();
+
+    rll::Color c;
 
     c = colors.getColorByIndex(_ct.currentFigure.colors[1]);
     TCODConsole::root->putCharEx(x, y, cellSymbol,
@@ -37,6 +48,4 @@ void gct::Render::show() const {
         TCODConsole::root->putCharEx(x+1, y, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     }
-
-    TCODConsole::root->flush();
 }

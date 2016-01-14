@@ -10,14 +10,24 @@ void gct::GameController::loop() {
         elapsedTime += TCODSystem::getLastFrameLength();
         if(elapsedTime - timeForStep > 0) {
             elapsedTime -= timeForStep;
-            if(game.dropFigureIsPosible()) { game.dropFigure(); }
+            if(game.dropFigureIsPossible()) { game.dropFigure(); }
             else {
                 game.fixFigure();
 
-                if(game.setNewFigureIsPosible()) {
+                while(game.gravityIsNeeded()) {
+                    game.gravity();
+                    render.show();
+                    TCODSystem::sleepMilli(10);
+                }
+
+                game.removeMonochromeRegion();
+
+                if(game.setNewFigureIsPossible()) {
                     game.generateNewFigure();
                 } else {
                     // end game //TODO
+                    TCODSystem::sleepMilli(100000);
+                    break;
                 }
             }
         }

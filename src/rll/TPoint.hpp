@@ -7,6 +7,7 @@ namespace rll {
     class TPoint {
     public:
         TPoint() : TPoint(T(), T(), T()) { }
+        TPoint(const TPoint& p) : _x(p.x()), _y(p.y()), _z(p.z()) { }
         TPoint(const T& x, const T& y, const T& z = T()) : _x(x), _y(y), _z(z) { }
 
         T x() const { return _x; }

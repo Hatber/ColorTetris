@@ -1,9 +1,14 @@
 #include "ColorTetris.h"
+#include "rll/ConnectedRegionSearcher.hpp"
+
+#include <iostream>
+using std::cout;
+using std::endl;
 
 gct::ColorTetris::ColorTetris(int colorCount, int xSize, int ySize) :
         _colorCount(colorCount),
         currentFigure(Figure(colorCount)), nextFigure(Figure(colorCount)),
-        _board(xSize, ySize), score(0)
+        _board(xSize, ySize), score(0), figureIsFixed(false)
 {
     renewFigurePosition();
 }
@@ -15,9 +20,7 @@ void gct::ColorTetris::generateNewFigure() {
     renewFigurePosition();
 }
 
-void gct::ColorTetris::dropFigure() {
-        figurePosition.y() += 1;
-}
+void gct::ColorTetris::dropFigure() { figurePosition.y() += 1; }
 
 void gct::ColorTetris::fixFigure() {
     _board.setElement(figurePosition, currentFigure.colors[1]);
@@ -28,10 +31,19 @@ void gct::ColorTetris::fixFigure() {
         _board.setElement(figurePosition.shift(-1, 0), currentFigure.colors[0]);
         _board.setElement(figurePosition.shift( 1, 0), currentFigure.colors[2]);
     }
+
+    figureIsFixed = true;
 }
 
 void gct::ColorTetris::removeMonochromeRegion() {
+    rll::ConnectedRegionSearcher< int > searcher;
+    rll::Area regions(searcher.search(_board));
 
+    int regionCount = searcher.regionCount();
+    for(int regionId = 0; regionId < regionCount; regionId++) {
+        if(regionContainFreeSpace(regions, regionId)) { continue; }
+        if(regionSize(regions, regionId) < 3) { continue; }
+    }
 }
 
 void gct::ColorTetris::gravity() {
@@ -45,7 +57,7 @@ void gct::ColorTetris::gravity() {
 }
 
 
-bool gct::ColorTetris::setNewFigureIsPosible() {
+bool gct::ColorTetris::setNewFigureIsPossible() {
     int borderXCenterPoint = getCenterXBoard();
 
     return
@@ -54,7 +66,7 @@ bool gct::ColorTetris::setNewFigureIsPosible() {
         _board.freeSpace(borderXCenterPoint, 2);
 }
 
-bool gct::ColorTetris::dropFigureIsPosible() {
+bool gct::ColorTetris::dropFigureIsPossible() {
     if(!figureCoordinateInBorders(figurePosition.shift(0, 1))) { return false; }
 
     bool spaceUnderFigureIsFree;
@@ -116,6 +128,7 @@ int gct::ColorTetris::getCenterXBoard() {
 
 void gct::ColorTetris::renewFigurePosition() {
     figurePosition = rll::Point::makePoint(getCenterXBoard(), 1);
+    figureIsFixed = false;
 }
 
 bool gct::ColorTetris::isMoved(rll::Point way) {
@@ -153,4 +166,17 @@ bool gct::ColorTetris::isOverlap(rll::Point coordinate, bool isVertical) {
     }
 
     return overlap;
+}
+
+
+bool gct::ColorTetris::regionContainFreeSpace(const rll::Area &regions, int regionId) {
+    return false;
+}
+
+int gct::ColorTetris::regionSize(const rll::Area &regions, int regionId) {
+    return 0;
+}
+
+void gct::ColorTetris::cleanRegion(const rll::Area &regions, int regionId) {
+
 }
