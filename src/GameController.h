@@ -10,7 +10,7 @@ public:
     GameController(int colorCount, int xSize, int ySize) :
         game(colorCount, xSize, ySize),
         render(game),
-        timeForStep(0.1),
+        timeForStep(0.5),
         elapsedTime(0)
     {
         render.show();
@@ -19,6 +19,8 @@ public:
     void loop();
 
 private:
+    void processingBoard();
+
     ColorTetris game;
     Render render;
     float timeForStep;

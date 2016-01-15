@@ -12,8 +12,9 @@ public:
 
     void generateNewFigure();
     void dropFigure();
+    void forceDropFigure();
     void fixFigure();
-    void removeMonochromeRegion();
+    bool removeMonochromeRegion();
     void gravity();
 
     bool setNewFigureIsPossible();
@@ -36,9 +37,10 @@ private:
     bool figureCoordinateInBorders(rll::Point coordinate);
 
     bool regionContainFreeSpace(const rll::Area& regions, int regionId);
-    int  regionSize(const rll::Area& regions, int regionId);
+    int  calculateRegionSize(const rll::Area &regions, int regionId);
     void cleanRegion(const rll::Area& regions, int regionId);
 
+    int calcScore(int regionSize);
 
     int _colorCount;
     Figure currentFigure, nextFigure;

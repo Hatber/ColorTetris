@@ -12,23 +12,7 @@ void gct::GameController::loop() {
             elapsedTime -= timeForStep;
             if(game.dropFigureIsPossible()) { game.dropFigure(); }
             else {
-                game.fixFigure();
-
-                while(game.gravityIsNeeded()) {
-                    game.gravity();
-                    render.show();
-                    TCODSystem::sleepMilli(10);
-                }
-
-                game.removeMonochromeRegion();
-
-                if(game.setNewFigureIsPossible()) {
-                    game.generateNewFigure();
-                } else {
-                    // end game //TODO
-                    TCODSystem::sleepMilli(100000);
-                    break;
-                }
+                processingBoard();
             }
         }
 
@@ -37,9 +21,31 @@ void gct::GameController::loop() {
             case TCODK_LEFT  : game.moveLeft();  break;
             case TCODK_RIGHT : game.moveRight(); break;
             case TCODK_UP    : game.transposeForward();  break;
-            case TCODK_DOWN  : game.transposeBackward(); break;
+            case TCODK_DOWN  : game.forceDropFigure(); processingBoard(); break;
             case TCODK_SPACE : game.rotate(); break;
             default          : break;
         }
+    }
+}
+
+void gct::GameController::processingBoard() {
+    render.show();
+
+    game.fixFigure();
+
+    do {
+        while (game.gravityIsNeeded()) {
+            game.gravity();
+            render.show();
+            TCODSystem::sleepMilli(10);
+        }
+    } while(game.removeMonochromeRegion());
+
+    if(game.setNewFigureIsPossible()) {
+        game.generateNewFigure();
+    } else {
+        // end game //TODO
+        TCODSystem::sleepMilli(100000);
+        //break;
     }
 }

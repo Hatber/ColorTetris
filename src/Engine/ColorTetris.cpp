@@ -21,6 +21,10 @@ void gct::ColorTetris::generateNewFigure() {
 }
 
 void gct::ColorTetris::dropFigure() { figurePosition.y() += 1; }
+void gct::ColorTetris::forceDropFigure() {
+    while(dropFigureIsPossible()) { dropFigure(); }
+}
+
 
 void gct::ColorTetris::fixFigure() {
     _board.setElement(figurePosition, currentFigure.colors[1]);
@@ -35,15 +39,26 @@ void gct::ColorTetris::fixFigure() {
     figureIsFixed = true;
 }
 
-void gct::ColorTetris::removeMonochromeRegion() {
+bool gct::ColorTetris::removeMonochromeRegion() {
+    bool regionIsRemoved = false;
+
     rll::ConnectedRegionSearcher< int > searcher;
     rll::Area regions(searcher.search(_board));
 
     int regionCount = searcher.regionCount();
     for(int regionId = 0; regionId < regionCount; regionId++) {
         if(regionContainFreeSpace(regions, regionId)) { continue; }
-        if(regionSize(regions, regionId) < 3) { continue; }
+
+        int regionSize = calculateRegionSize(regions, regionId);
+        if(regionSize < 3) { continue; }
+
+        score += calcScore(regionSize);
+        cleanRegion(regions, regionId);
+
+        regionIsRemoved = true;
     }
+
+    return regionIsRemoved;
 }
 
 void gct::ColorTetris::gravity() {
@@ -170,13 +185,39 @@ bool gct::ColorTetris::isOverlap(rll::Point coordinate, bool isVertical) {
 
 
 bool gct::ColorTetris::regionContainFreeSpace(const rll::Area &regions, int regionId) {
+    for(int y = 0; y < _board.getYSize(); y++) {
+        for(int x = 0; x < _board.getXSize(); x++) {
+            if(regions.getElement(x, y) == regionId) {
+                return _board.freeSpace(x, y);
+            }
+        }
+    }
     return false;
 }
 
-int gct::ColorTetris::regionSize(const rll::Area &regions, int regionId) {
-    return 0;
+int gct::ColorTetris::calculateRegionSize(const rll::Area &regions, int regionId) {
+    int size = 0;
+    for(int y = 0; y < _board.getYSize(); y++) {
+        for(int x = 0; x < _board.getXSize(); x++) {
+            if(regions.getElement(x, y) == regionId) {
+                size++;
+            }
+        }
+    }
+    return size;
 }
 
 void gct::ColorTetris::cleanRegion(const rll::Area &regions, int regionId) {
+    int size = 0;
+    for(int y = 0; y < _board.getYSize(); y++) {
+        for(int x = 0; x < _board.getXSize(); x++) {
+            if(regions.getElement(x, y) == regionId) {
+                _board.setElement(x, y, -1);
+            }
+        }
+    }
+}
 
+int gct::ColorTetris::calcScore(int regionSize) {
+    return regionSize*regionSize/3;
 }

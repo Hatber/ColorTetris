@@ -12,7 +12,7 @@ namespace rll {
         ConnectedRegionSearcher() : regionMaxId(0) { };
 
         TArea< T > search(const TArea< T >& field);
-        int regionCount() { return regionMaxId - 1; }
+        int regionCount() { return regionMaxId; }
 
     private:
         void searchRecursive(const TArea< T > &field, TArea< T >& regions, int x, int y, int id);
