@@ -9,24 +9,30 @@
 namespace gct {
 
 class Render {
-    const char cellSymbol = 0x8;
-    const char freeCellSymbol = 0x9;
+    const char wallSymbol = 0x0;
+    const char cellSymbol = 0x1;
+    const char freeCellSymbol = 0x2;
 
 public:
-    Render(ColorTetris &ct) : _ct(ct) {
-        TCODSystem::setFps(10);
-        TCODConsole::root->setCustomFont("terminal.png", TCOD_FONT_LAYOUT_ASCII_INROW);
-        TCODConsole::initRoot(_ct._board.getXSize(), _ct._board.getYSize() + 1, "Color Tetris");
-    }
+    Render(ColorTetris &ct);
+    ~Render();
 
     void show() const;
+
     void showField() const;
     void showFigure() const;
+
     void showScore() const;
+
+    void showNextFigure() const;
 
 private:
     const ColorTetris& _ct;
     rll::ColorSet colors;
+
+    TCODConsole* glassWindow;
+    TCODConsole* nextFigureWindow;
+    TCODConsole* scoreWindow;
 };
 
 } // gct

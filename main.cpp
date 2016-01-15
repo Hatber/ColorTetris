@@ -6,7 +6,7 @@ using namespace std;
 
 const int xSize = 10;
 const int ySize = 20;
-const int colorCount = 4;
+const int colorCount = 5;
 
 //TODO : Game bot
 int main() {

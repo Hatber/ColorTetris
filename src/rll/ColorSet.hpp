@@ -22,8 +22,6 @@ public:
 
         colorMap.push_back(Color(0,   255, 127));
         colorMap.push_back(Color(127, 255, 0));
-
-
     }
 
     const Color getColorByIndex(int id) const {
