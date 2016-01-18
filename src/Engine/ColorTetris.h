@@ -27,6 +27,8 @@ public:
     void transposeForward();
     void transposeBackward();
 
+    int calcDifficultyLevel() const;
+
 
 private:
     int getCenterXBoard();

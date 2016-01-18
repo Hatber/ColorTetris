@@ -1,9 +1,10 @@
 #include "Render.h"
+#include "rll/BorderDrafter.hpp"
 
 using namespace gct;
 
 Render::Render(ColorTetris &ct) : _ct(ct) {
-    TCODSystem::setFps(10);
+    TCODSystem::setFps(60);
     TCODConsole::root->setCustomFont("terminal.png", TCOD_FONT_LAYOUT_ASCII_INROW);
 
     int boardXSize = _ct._board.getXSize();
@@ -13,19 +14,22 @@ Render::Render(ColorTetris &ct) : _ct(ct) {
 
     glassWindow = new TCODConsole(boardXSize, boardYSize);
     scoreWindow = new TCODConsole(5, 2);
-    nextFigureWindow = new TCODConsole(3, 3);
+    levelWindow = new TCODConsole(5, 2);
+    nextFigureWindow = new TCODConsole(5, 5);
 }
 
 Render::~Render() {
     delete glassWindow;
     delete nextFigureWindow;
     delete scoreWindow;
+    delete levelWindow;
 }
 
 
 void gct::Render::show() const {
     int rootXSize = TCODConsole::root->getWidth();
     int rootYSize = TCODConsole::root->getHeight();
+
     for (int y = 0; y < rootYSize; y++) {
         for (int x = 0; x < rootXSize; x++) {
             TCODConsole::root->putCharEx(x, y, wallSymbol, TCODColor::black, TCODColor::white);
@@ -34,6 +38,7 @@ void gct::Render::show() const {
 
     showField();
     showScore();
+    showLevel();
     showNextFigure();
 
     TCODConsole::flush();
@@ -89,26 +94,80 @@ void gct::Render::showScore() const {
     const Board &b = _ct._board;
 
     std::string strScore = std::to_string(_ct.score);
-    scoreWindow->print(0, 0, "Score" );
+    scoreWindow->print(0, 0, "Score");
     scoreWindow->print((5-strScore.size())/2, 1, strScore.c_str());
 
     TCODConsole::blit(scoreWindow, 0, 0, 5, 2, TCODConsole::root, b.getXSize()+2, 1);
 }
 
 void Render::showNextFigure() const {
+    rll::BorderDrafter drafter;
+    drafter.DrawPassiveBorder(0, 5, 0, 5,nextFigureWindow);
+
     const Board &b = _ct._board;
 
     rll::Color c;
 
     c = colors.getColorByIndex(_ct.nextFigure.colors[1]);
-    nextFigureWindow->putCharEx(1, 1, cellSymbol,
+    nextFigureWindow->putCharEx(2, 2, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     c = colors.getColorByIndex(_ct.nextFigure.colors[0]);
-    nextFigureWindow->putCharEx(1, 0, cellSymbol,
+    nextFigureWindow->putCharEx(2, 1, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     c = colors.getColorByIndex(_ct.nextFigure.colors[2]);
-    nextFigureWindow->putCharEx(1, 2, cellSymbol,
+    nextFigureWindow->putCharEx(2, 3, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
 
-    TCODConsole::blit(nextFigureWindow, 0, 0, 3, 3, TCODConsole::root, b.getXSize()+3, 1 + 2 + 1);
+    TCODConsole::blit(nextFigureWindow, 0, 0, 5, 5, TCODConsole::root, b.getXSize()+2, 1 + 2 + 1);
+}
+
+void Render::showStartMessege() {
+    int rootXSize = TCODConsole::root->getWidth();
+    int rootYSize = TCODConsole::root->getHeight();
+
+    TCODConsole startWindow(rootXSize - 4, rootYSize - 4);
+
+
+    rll::BorderDrafter drafter;
+    drafter.DrawPassiveBorder(&startWindow);
+
+    int printPosition = 1;
+
+    startWindow.print(2, printPosition++, "Welcome to");
+    startWindow.print(1 , printPosition++, "Color Tetris");
+    startWindow.hline(1, printPosition++, rootXSize - 6);
+
+    startWindow.print(2, printPosition++, "Control:");
+    printPosition++;
+
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_E);
+    startWindow.putChar(2, printPosition, TCOD_CHAR_ARROW2_W);
+    startWindow.print(3, printPosition++, " - Move");
+
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_N);
+    startWindow.print(2, printPosition++, " - Colors");
+
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_S);
+    startWindow.print(2, printPosition++, " - Drop");
+
+    printPosition++;
+    startWindow.print(1, printPosition++, "SPACE-Rotate");
+
+    startWindow.hline(1, startWindow.getHeight()-4, startWindow.getWidth()-2);
+    startWindow.print(1, startWindow.getHeight()-3, " Press ANY");
+    startWindow.print(1, startWindow.getHeight()-2, "key to start");
+
+    TCODConsole::blit(&startWindow, 0, 0, rootXSize - 4, rootYSize - 4, TCODConsole::root, 2, 2);
+
+    TCODConsole::flush();
+}
+
+void Render::showLevel() const {
+    const Board &b = _ct._board;
+
+    std::string levelNumber = std::to_string(_ct.calcDifficultyLevel());
+    levelWindow->print(0, 0, "Level");
+    levelWindow->print((5-levelNumber.size())/2, 1, levelNumber.c_str());
+
+    TCODConsole::blit(levelWindow, 0, 0, 5, 2, TCODConsole::root, b.getXSize()+2, 1 + 2 + 1 + 5 + 1);
 }

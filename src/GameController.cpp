@@ -1,15 +1,21 @@
-#include <console_types.h>
+#include <cmath>
 #include "GameController.h"
 
 void gct::GameController::loop() {
     TCOD_key_t key;
     TCOD_mouse_t mouse;
+
+    render.showStartMessege();
+    do {
+        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
+    } while(key.vk == TCODK_NONE && !TCODConsole::isWindowClosed());
+
     while(!TCODConsole::isWindowClosed()) {
         render.show();
 
         elapsedTime += TCODSystem::getLastFrameLength();
-        if(elapsedTime - timeForStep > 0) {
-            elapsedTime -= timeForStep;
+        if(elapsedTime - calcTimeForStep() > 0) {
+            elapsedTime = 0;
             if(game.dropFigureIsPossible()) { game.dropFigure(); }
             else {
                 processingBoard();
@@ -48,4 +54,8 @@ void gct::GameController::processingBoard() {
         TCODSystem::sleepMilli(100000);
         //break;
     }
+}
+
+float gct::GameController::calcTimeForStep() {
+    return timeForStep * std::pow(0.9, game.calcDifficultyLevel());
 }

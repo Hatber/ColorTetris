@@ -18,21 +18,22 @@ public:
     ~Render();
 
     void show() const;
-
-    void showField() const;
-    void showFigure() const;
-
-    void showScore() const;
-
-    void showNextFigure() const;
+    void showStartMessege();
 
 private:
+    void showField() const;
+    void showFigure() const;
+    void showScore() const;
+    void showLevel() const;
+    void showNextFigure() const;
+
     const ColorTetris& _ct;
     rll::ColorSet colors;
 
     TCODConsole* glassWindow;
     TCODConsole* nextFigureWindow;
     TCODConsole* scoreWindow;
+    TCODConsole* levelWindow;
 };
 
 } // gct

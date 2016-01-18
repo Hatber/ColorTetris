@@ -208,7 +208,6 @@ int gct::ColorTetris::calculateRegionSize(const rll::Area &regions, int regionId
 }
 
 void gct::ColorTetris::cleanRegion(const rll::Area &regions, int regionId) {
-    int size = 0;
     for(int y = 0; y < _board.getYSize(); y++) {
         for(int x = 0; x < _board.getXSize(); x++) {
             if(regions.getElement(x, y) == regionId) {
@@ -220,4 +219,8 @@ void gct::ColorTetris::cleanRegion(const rll::Area &regions, int regionId) {
 
 int gct::ColorTetris::calcScore(int regionSize) {
     return regionSize*regionSize/3;
+}
+
+int gct::ColorTetris::calcDifficultyLevel() const {
+    return score / 100;
 }

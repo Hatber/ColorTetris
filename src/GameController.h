@@ -20,6 +20,7 @@ public:
 
 private:
     void processingBoard();
+    float calcTimeForStep();
 
     ColorTetris game;
     Render render;
