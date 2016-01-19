@@ -1,3 +1,5 @@
+#include <string>
+
 #include "Render.h"
 #include "rll/BorderDrafter.hpp"
 

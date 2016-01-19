@@ -38,8 +38,8 @@ private:
     bool isOverlap(rll::Point coordinate, bool isVertical);
     bool figureCoordinateInBorders(rll::Point coordinate);
 
-    bool regionContainFreeSpace(const rll::Area& regions, int regionId);
-    int  calculateRegionSize(const rll::Area &regions, int regionId);
+    bool regionContainFreeSpace(const rll::Area& regions, int regionId) const;
+    int  calculateRegionSize(const rll::Area &regions, int regionId) const;
     void cleanRegion(const rll::Area& regions, int regionId);
 
     int calcScore(int regionSize);
@@ -54,6 +54,7 @@ private:
     bool figureIsFixed;
 
     friend class Render;
+    friend class GameBot;
 };
 
 } // gct

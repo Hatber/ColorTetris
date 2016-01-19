@@ -184,7 +184,7 @@ bool gct::ColorTetris::isOverlap(rll::Point coordinate, bool isVertical) {
 }
 
 
-bool gct::ColorTetris::regionContainFreeSpace(const rll::Area &regions, int regionId) {
+bool gct::ColorTetris::regionContainFreeSpace(const rll::Area &regions, int regionId) const {
     for(int y = 0; y < _board.getYSize(); y++) {
         for(int x = 0; x < _board.getXSize(); x++) {
             if(regions.getElement(x, y) == regionId) {
@@ -195,7 +195,7 @@ bool gct::ColorTetris::regionContainFreeSpace(const rll::Area &regions, int regi
     return false;
 }
 
-int gct::ColorTetris::calculateRegionSize(const rll::Area &regions, int regionId) {
+int gct::ColorTetris::calculateRegionSize(const rll::Area &regions, int regionId) const {
     int size = 0;
     for(int y = 0; y < _board.getYSize(); y++) {
         for(int x = 0; x < _board.getXSize(); x++) {

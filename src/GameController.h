@@ -2,6 +2,7 @@
 #define COLORTETRIS_GAMECONTROLLER_H
 
 #include "Render.h"
+#include "GameBot/GameBot.hpp"
 
 namespace gct {
 
@@ -10,7 +11,8 @@ public:
     GameController(int colorCount, int xSize, int ySize) :
         game(colorCount, xSize, ySize),
         render(game),
-        timeForStep(0.5),
+        bot(game),
+        timeForStep(0.1),
         elapsedTime(0)
     {
         render.show();
@@ -24,10 +26,17 @@ private:
 
     void waitToContinue();
 
+    TCOD_keycode_t getUserInput();
+    TCOD_keycode_t getBotInput();
+
+    void processingInput(TCOD_keycode_t inputCode);
+
     ColorTetris game;
     Render render;
-    float timeForStep;
 
+    GameBot bot;
+
+    float timeForStep;
     float elapsedTime;
 };
 

@@ -1,4 +1,6 @@
 #include <cmath>
+#include <console_types.h>
+#include <mouse_types.h>
 #include "GameController.h"
 
 void gct::GameController::loop() {
@@ -7,6 +9,8 @@ void gct::GameController::loop() {
 
     render.showStartMessege();
     waitToContinue();
+
+    bot.randomWay();
 
     while(!TCODConsole::isWindowClosed()) {
         render.show();
@@ -20,15 +24,7 @@ void gct::GameController::loop() {
             }
         }
 
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
-        switch (key.vk) {
-            case TCODK_LEFT  : game.moveLeft();  break;
-            case TCODK_RIGHT : game.moveRight(); break;
-            case TCODK_UP    : game.transposeForward();  break;
-            case TCODK_DOWN  : game.forceDropFigure(); processingBoard(); break;
-            case TCODK_SPACE : game.rotate(); break;
-            default          : break;
-        }
+        processingInput(getBotInput());
     }
 }
 
@@ -47,6 +43,7 @@ void gct::GameController::processingBoard() {
 
     if(game.setNewFigureIsPossible()) {
         game.generateNewFigure();
+        bot.randomWay();
     } else {
         render.showEndMessege();
         waitToContinue();
@@ -58,8 +55,28 @@ float gct::GameController::calcTimeForStep() {
 }
 
 void gct::GameController::waitToContinue() {
+    TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE_PRESS, 0, 0, true);
+}
+
+TCOD_keycode_t gct::GameController::getUserInput() {
     TCOD_key_t key;
-    do {
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
-    } while(key.vk == TCODK_NONE && !TCODConsole::isWindowClosed());
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
+    return key.vk;
+}
+
+TCOD_keycode_t gct::GameController::getBotInput() {
+    return bot.getAction();
+}
+
+void gct::GameController::processingInput(TCOD_keycode_t inputCode) {
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, 0, 0);
+
+    switch (inputCode) {
+        case TCODK_LEFT  : game.moveLeft();  break;
+        case TCODK_RIGHT : game.moveRight(); break;
+        case TCODK_UP    : game.transposeForward();  break;
+        case TCODK_DOWN  : game.forceDropFigure(); processingBoard(); break;
+        case TCODK_SPACE : game.rotate(); break;
+        default          : break;
+    }
 }
