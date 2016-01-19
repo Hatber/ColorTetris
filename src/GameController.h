@@ -22,6 +22,8 @@ private:
     void processingBoard();
     float calcTimeForStep();
 
+    void waitToContinue();
+
     ColorTetris game;
     Render render;
     float timeForStep;

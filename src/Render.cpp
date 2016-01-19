@@ -140,14 +140,14 @@ void Render::showStartMessege() {
     startWindow.print(2, printPosition++, "Control:");
     printPosition++;
 
-    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_E);
-    startWindow.putChar(2, printPosition, TCOD_CHAR_ARROW2_W);
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW_E);
+    startWindow.putChar(2, printPosition, TCOD_CHAR_ARROW_W);
     startWindow.print(3, printPosition++, " - Move");
 
-    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_N);
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW_N);
     startWindow.print(2, printPosition++, " - Colors");
 
-    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW2_S);
+    startWindow.putChar(1, printPosition, TCOD_CHAR_ARROW_S);
     startWindow.print(2, printPosition++, " - Drop");
 
     printPosition++;
@@ -170,4 +170,26 @@ void Render::showLevel() const {
     levelWindow->print((5-levelNumber.size())/2, 1, levelNumber.c_str());
 
     TCODConsole::blit(levelWindow, 0, 0, 5, 2, TCODConsole::root, b.getXSize()+2, 1 + 2 + 1 + 5 + 1);
+}
+
+void Render::showEndMessege() {
+    //Congratulation! You lose!
+    int rootXSize = TCODConsole::root->getWidth();
+    int rootYSize = TCODConsole::root->getHeight();
+
+    int endWindowXSize = 17;
+    int endWindowYSize = 4;
+    TCODConsole endWindow(endWindowXSize, endWindowYSize);
+
+
+    rll::BorderDrafter drafter;
+    drafter.DrawPassiveBorder(&endWindow);
+
+    endWindow.print(1, 1, "Congratulation!");
+    endWindow.print(1, 2, "   You lose!");
+
+    TCODConsole::blit(&endWindow, 0, 0, endWindowXSize, endWindowYSize, TCODConsole::root,
+                      (rootXSize -endWindowXSize)/2, (rootYSize -endWindowYSize)/2);
+
+    TCODConsole::flush();
 }

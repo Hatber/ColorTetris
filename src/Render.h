@@ -19,6 +19,7 @@ public:
 
     void show() const;
     void showStartMessege();
+    void showEndMessege();
 
 private:
     void showField() const;

@@ -6,9 +6,7 @@ void gct::GameController::loop() {
     TCOD_mouse_t mouse;
 
     render.showStartMessege();
-    do {
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
-    } while(key.vk == TCODK_NONE && !TCODConsole::isWindowClosed());
+    waitToContinue();
 
     while(!TCODConsole::isWindowClosed()) {
         render.show();
@@ -50,12 +48,18 @@ void gct::GameController::processingBoard() {
     if(game.setNewFigureIsPossible()) {
         game.generateNewFigure();
     } else {
-        // end game //TODO
-        TCODSystem::sleepMilli(100000);
-        //break;
+        render.showEndMessege();
+        waitToContinue();
     }
 }
 
 float gct::GameController::calcTimeForStep() {
     return timeForStep * std::pow(0.9, game.calcDifficultyLevel());
+}
+
+void gct::GameController::waitToContinue() {
+    TCOD_key_t key;
+    do {
+        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
+    } while(key.vk == TCODK_NONE && !TCODConsole::isWindowClosed());
 }
