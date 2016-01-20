@@ -1,10 +1,11 @@
 #include <cmath>
+#include <GameBot/BruteForceBot.hpp>
 #include "GameController.h"
 
 gct::GameController::GameController(int colorCount, int xSize, int ySize) :
         game(colorCount, xSize, ySize),
         render(game),
-        bot(new RandomBot(game)),
+        bot(new BruteForceBot(game)),
         timeForStep(0.1),
         elapsedTime(0)
 {

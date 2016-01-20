@@ -1,6 +1,8 @@
 #ifndef COLORTETRIS_AGAMEBOT_HPP
 #define COLORTETRIS_AGAMEBOT_HPP
 
+#include <iostream>
+
 #include "libtcod.hpp"
 #include "Engine/ColorTetris.h"
 
@@ -8,7 +10,7 @@ namespace gct {
 
     class AGameBot {
     public:
-        AGameBot(const ColorTetris& ct) : game(ct), timeForStep(0.1), elapsedTime(0) { }
+        AGameBot(const ColorTetris& ct) : game(ct), timeForStep(0.5), elapsedTime(0) { }
 
         virtual void findWay() = 0;
 
@@ -18,6 +20,7 @@ namespace gct {
 
             TCOD_keycode_t code = way.back();
             way.pop_back();
+            std::cout << way.size() << std::endl;
             return code;
         }
 

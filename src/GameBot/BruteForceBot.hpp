@@ -9,6 +9,15 @@ namespace gct {
     public:
         BruteForceBot(const ColorTetris& ct) : AGameBot(ct) { }
         void findWay();
+
+    private:
+        struct bestOptions {
+            rll::Point position;
+            int transposeCount;
+            bool isVertical;
+        };
+
+        void constructWay(const bestOptions& opt);
     };
 
 }

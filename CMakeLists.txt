@@ -12,7 +12,7 @@ link_directories(${LIBTCOD_LIBRARY})
 
 include_directories("src/")
 
-set(SOURCE_FILES main.cpp src/Engine/Board.cpp src/Engine/ColorTetris.cpp src/GameController.cpp src/Render.cpp
+set(SOURCE_FILES main.cpp src/Engine/ColorTetris.cpp src/GameController.cpp src/Render.cpp
         src/GameBot/RandomBot.cpp src/GameBot/BruteForceBot.cpp)
 add_executable(ColorTetris ${SOURCE_FILES})
 
