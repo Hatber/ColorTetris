@@ -29,6 +29,14 @@ public:
 
     int calcDifficultyLevel() const;
 
+    //Getters
+    const Board& getBoard() const { return _board; }
+    const Figure& getFigure() const { return currentFigure; }
+    const Figure& getNextFigure() const { return nextFigure; }
+    const rll::Point& getFigurePosition() const { return figurePosition; }
+    int getScore() const { return score; }
+    bool isFixed() const { return figureIsFixed; }
+
 
 private:
     int getCenterXBoard();
@@ -52,9 +60,6 @@ private:
     rll::Point figurePosition;
 
     bool figureIsFixed;
-
-    friend class Render;
-    friend class RandomBot;
 };
 
 } // gct

@@ -9,8 +9,8 @@ Render::Render(ColorTetris &ct) : _ct(ct) {
     TCODSystem::setFps(60);
     TCODConsole::root->setCustomFont("terminal.png", TCOD_FONT_LAYOUT_ASCII_INROW);
 
-    int boardXSize = _ct._board.getXSize();
-    int boardYSize = _ct._board.getYSize();
+    int boardXSize = _ct.getBoard().getXSize();
+    int boardYSize = _ct.getBoard().getYSize();
 
     TCODConsole::initRoot(boardXSize + 2 + 6, boardYSize + 1, "Color Tetris");
 
@@ -47,11 +47,11 @@ void gct::Render::show() const {
 }
 
 void gct::Render::showField() const {
-    const Board &b = _ct._board;
+    const Board &b = _ct.getBoard();
     rll::Color c;
 
-    for (int y = 0; y < _ct._board.getYSize(); y++) {
-        for (int x = 0; x < _ct._board.getXSize(); x++) {
+    for (int y = 0; y < b.getYSize(); y++) {
+        for (int x = 0; x < b.getXSize(); x++) {
             if(b.freeSpace(x, y)) {
                 glassWindow->putCharEx(x, y, freeCellSymbol, TCODColor::black, TCODColor::white);
             } else {
@@ -62,40 +62,41 @@ void gct::Render::showField() const {
         }
     }
 
-    if(!_ct.figureIsFixed) { showFigure(); }
+    if(!_ct.isFixed()) { showFigure(); }
 
     TCODConsole::blit(glassWindow, 0, 0, b.getXSize(), b.getYSize(), TCODConsole::root, 1, 0);
 }
 void gct::Render::showFigure() const {
-    int x = _ct.figurePosition.x();
-    int y = _ct.figurePosition.y();
+    int x = _ct.getFigurePosition().x();
+    int y = _ct.getFigurePosition().y();
 
     rll::Color c;
+    const Figure& current = _ct.getFigure();
 
-    c = colors.getColorByIndex(_ct.currentFigure.colors[1]);
+    c = colors.getColorByIndex(current.colors[1]);
     glassWindow->putCharEx(x, y, cellSymbol,
                                  TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-    if(_ct.currentFigure.isVertical) {
-        c = colors.getColorByIndex(_ct.currentFigure.colors[0]);
+    if(current.isVertical) {
+        c = colors.getColorByIndex(current.colors[0]);
         glassWindow->putCharEx(x, y-1, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-        c = colors.getColorByIndex(_ct.currentFigure.colors[2]);
+        c = colors.getColorByIndex(current.colors[2]);
         glassWindow->putCharEx(x, y+1, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     } else {
-        c = colors.getColorByIndex(_ct.currentFigure.colors[0]);
+        c = colors.getColorByIndex(current.colors[0]);
         glassWindow->putCharEx(x-1, y, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-        c = colors.getColorByIndex(_ct.currentFigure.colors[2]);
+        c = colors.getColorByIndex(current.colors[2]);
         glassWindow->putCharEx(x+1, y, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     }
 }
 
 void gct::Render::showScore() const {
-    const Board &b = _ct._board;
+    const Board &b = _ct.getBoard();
 
-    std::string strScore = std::to_string(_ct.score);
+    std::string strScore = std::to_string(_ct.getScore());
     scoreWindow->print(0, 0, "Score");
     scoreWindow->print((5-strScore.size())/2, 1, strScore.c_str());
 
@@ -106,17 +107,19 @@ void Render::showNextFigure() const {
     rll::BorderDrafter drafter;
     drafter.DrawPassiveBorder(0, 5, 0, 5,nextFigureWindow);
 
-    const Board &b = _ct._board;
+    const Board &b = _ct.getBoard();
 
     rll::Color c;
 
-    c = colors.getColorByIndex(_ct.nextFigure.colors[1]);
+    const Figure& next = _ct.getNextFigure();
+
+    c = colors.getColorByIndex(next.colors[1]);
     nextFigureWindow->putCharEx(2, 2, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-    c = colors.getColorByIndex(_ct.nextFigure.colors[0]);
+    c = colors.getColorByIndex(next.colors[0]);
     nextFigureWindow->putCharEx(2, 1, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-    c = colors.getColorByIndex(_ct.nextFigure.colors[2]);
+    c = colors.getColorByIndex(next.colors[2]);
     nextFigureWindow->putCharEx(2, 3, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
 
@@ -165,7 +168,7 @@ void Render::showStartMessege() {
 }
 
 void Render::showLevel() const {
-    const Board &b = _ct._board;
+    const Board &b = _ct.getBoard();
 
     std::string levelNumber = std::to_string(_ct.calcDifficultyLevel());
     levelWindow->print(0, 0, "Level");

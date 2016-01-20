@@ -142,7 +142,7 @@ int gct::ColorTetris::getCenterXBoard() {
 }
 
 void gct::ColorTetris::renewFigurePosition() {
-    figurePosition = rll::Point::makePoint(getCenterXBoard(), 1);
+    figurePosition = rll::Point::makePoint(getCenterXBoard(), 0);
     figureIsFixed = false;
 }
 

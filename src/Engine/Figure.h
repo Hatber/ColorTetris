@@ -8,7 +8,7 @@ namespace gct {
 
     struct Figure {
         Figure(int maxColors) {
-            isVertical = true;
+            isVertical = false;
 
             colors[0] = rand()%maxColors;
             colors[1] = rand()%maxColors;
