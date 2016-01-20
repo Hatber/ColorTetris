@@ -28,6 +28,8 @@ namespace gct {
             std::swap(colors[0], colors[2]);
         }
 
+        int operator [] (int elementNum) const { return colors[elementNum]; }
+
         bool isVertical;
         int colors[3];
     };

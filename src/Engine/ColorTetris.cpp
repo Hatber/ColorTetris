@@ -27,13 +27,13 @@ void gct::ColorTetris::forceDropFigure() {
 
 
 void gct::ColorTetris::fixFigure() {
-    _board.setElement(figurePosition, currentFigure.colors[1]);
+    _board.setElement(figurePosition, currentFigure[1]);
     if(currentFigure.isVertical) {
-        _board.setElement(figurePosition.shift(0, -1), currentFigure.colors[0]);
-        _board.setElement(figurePosition.shift(0,  1), currentFigure.colors[2]);
+        _board.setElement(figurePosition.shift(0, -1), currentFigure[0]);
+        _board.setElement(figurePosition.shift(0,  1), currentFigure[2]);
     } else {
-        _board.setElement(figurePosition.shift(-1, 0), currentFigure.colors[0]);
-        _board.setElement(figurePosition.shift( 1, 0), currentFigure.colors[2]);
+        _board.setElement(figurePosition.shift(-1, 0), currentFigure[0]);
+        _board.setElement(figurePosition.shift( 1, 0), currentFigure[2]);
     }
 
     figureIsFixed = true;

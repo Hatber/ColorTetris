@@ -73,21 +73,21 @@ void gct::Render::showFigure() const {
     rll::Color c;
     const Figure& current = _ct.getFigure();
 
-    c = colors.getColorByIndex(current.colors[1]);
+    c = colors.getColorByIndex(current[1]);
     glassWindow->putCharEx(x, y, cellSymbol,
                                  TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     if(current.isVertical) {
-        c = colors.getColorByIndex(current.colors[0]);
+        c = colors.getColorByIndex(current[0]);
         glassWindow->putCharEx(x, y-1, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-        c = colors.getColorByIndex(current.colors[2]);
+        c = colors.getColorByIndex(current[2]);
         glassWindow->putCharEx(x, y+1, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     } else {
-        c = colors.getColorByIndex(current.colors[0]);
+        c = colors.getColorByIndex(current[0]);
         glassWindow->putCharEx(x-1, y, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-        c = colors.getColorByIndex(current.colors[2]);
+        c = colors.getColorByIndex(current[2]);
         glassWindow->putCharEx(x+1, y, cellSymbol,
                                      TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
     }
@@ -113,13 +113,13 @@ void Render::showNextFigure() const {
 
     const Figure& next = _ct.getNextFigure();
 
-    c = colors.getColorByIndex(next.colors[1]);
+    c = colors.getColorByIndex(next[1]);
     nextFigureWindow->putCharEx(2, 2, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-    c = colors.getColorByIndex(next.colors[0]);
+    c = colors.getColorByIndex(next[0]);
     nextFigureWindow->putCharEx(2, 1, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
-    c = colors.getColorByIndex(next.colors[2]);
+    c = colors.getColorByIndex(next[2]);
     nextFigureWindow->putCharEx(2, 3, cellSymbol,
                            TCODColor::black, TCODColor(c.r(), c.g(), c.b()));
 
