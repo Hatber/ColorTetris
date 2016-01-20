@@ -54,7 +54,7 @@ private:
     bool figureIsFixed;
 
     friend class Render;
-    friend class GameBot;
+    friend class RandomBot;
 };
 
 } // gct

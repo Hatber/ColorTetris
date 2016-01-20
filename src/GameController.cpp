@@ -1,7 +1,16 @@
 #include <cmath>
-#include <console_types.h>
-#include <mouse_types.h>
 #include "GameController.h"
+
+gct::GameController::GameController(int colorCount, int xSize, int ySize) :
+        game(colorCount, xSize, ySize),
+        render(game),
+        bot(new RandomBot(game)),
+        timeForStep(0.1),
+        elapsedTime(0)
+{
+    render.show();
+    bot->findWay();
+}
 
 void gct::GameController::loop() {
     TCOD_key_t key;
@@ -9,8 +18,6 @@ void gct::GameController::loop() {
 
     render.showStartMessege();
     waitToContinue();
-
-    bot.randomWay();
 
     while(!TCODConsole::isWindowClosed()) {
         render.show();
@@ -43,7 +50,7 @@ void gct::GameController::processingBoard() {
 
     if(game.setNewFigureIsPossible()) {
         game.generateNewFigure();
-        bot.randomWay();
+        bot->findWay();
     } else {
         render.showEndMessege();
         waitToContinue();
@@ -65,7 +72,7 @@ TCOD_keycode_t gct::GameController::getUserInput() {
 }
 
 TCOD_keycode_t gct::GameController::getBotInput() {
-    return bot.getAction();
+    return bot->getAction();
 }
 
 void gct::GameController::processingInput(TCOD_keycode_t inputCode) {
