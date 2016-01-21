@@ -1,8 +1,6 @@
 #ifndef COLORTETRIS_AGAMEBOT_HPP
 #define COLORTETRIS_AGAMEBOT_HPP
 
-#include <iostream>
-
 #include "libtcod.hpp"
 #include "Engine/ColorTetris.h"
 
@@ -20,7 +18,6 @@ namespace gct {
 
             TCOD_keycode_t code = way.back();
             way.pop_back();
-            std::cout << way.size() << std::endl;
             return code;
         }
 

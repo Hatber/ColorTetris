@@ -1,4 +1,3 @@
-#include <iostream>
 #include <algorithm>
 
 #include "BruteForceBot.hpp"
@@ -104,17 +103,12 @@ void gct::BruteForceBot::findWay() {
         }
     }
 
-    std::cout << "maxScore: " << maxScore << std::endl;
     constructWay(opt);
 }
 
 void gct::BruteForceBot::constructWay(const gct::BruteForceBot::bestOptions &opt) {
     rll::Point optimalPosition = opt.position;
     const rll::Point currentPosition = game.getFigurePosition();
-
-    std::cout << "currentPosition: " << currentPosition.x() << std::endl;
-    std::cout << opt.transposeCount << std::endl;
-    std::cout << "Vertical: " << opt.isVertical << std::endl;
 
     if(opt.isVertical) { way.push_back(TCODK_SPACE); }
 
@@ -132,12 +126,7 @@ void gct::BruteForceBot::constructWay(const gct::BruteForceBot::bestOptions &opt
         way.push_back(TCODK_UP);
     }
 
-    //std::random_shuffle(way.begin(), way.end());
-
-
     way.push_back(TCODK_DOWN);
 
     std::reverse(way.begin(), way.end());
-
-    std::cout << "Constructed: " << way.size() << std::endl << std::endl;
 }
