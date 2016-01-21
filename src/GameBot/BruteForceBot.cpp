@@ -30,7 +30,7 @@ void gct::BruteForceBot::findWay() {
             for(int transposeCount = 0; transposeCount <= colorsCount; transposeCount++) {
                 gameToTest.transposeForward();
             }
-            for(int moveCount = 0; moveCount <= x; moveCount++) {
+            for(int moveCount = 0; moveCount < x; moveCount++) {
                 gameToTest.moveRight();
             }
 
@@ -46,7 +46,7 @@ void gct::BruteForceBot::findWay() {
             if(maxScore < gameToTest.getScore()) {
                 maxScore = gameToTest.getScore();
 
-                opt.isVertical = gameToTest.getFigure().isVertical;
+                opt.isVertical = true;
                 opt.position = gameToTest.getFigurePosition();
                 opt.transposeCount = colorsCount;
             }
@@ -82,7 +82,7 @@ void gct::BruteForceBot::findWay() {
             if(maxScore < gameToTest.getScore()) {
                 maxScore = gameToTest.getScore();
 
-                opt.isVertical = gameToTest.getFigure().isVertical;
+                opt.isVertical = false;
                 opt.position = gameToTest.getFigurePosition();
                 opt.transposeCount = colorsCount;
             }
@@ -99,7 +99,9 @@ void gct::BruteForceBot::constructWay(const gct::BruteForceBot::bestOptions &opt
 
     std::cout << "currentPosition: " << currentPosition.x() << std::endl;
     std::cout << opt.transposeCount << std::endl;
-    std::cout << opt.isVertical << std::endl;
+    std::cout << "Vertical: " << opt.isVertical << std::endl;
+
+    if(opt.isVertical) { way.push_back(TCODK_SPACE); }
 
     int shift = std::abs(currentPosition.x() - optimalPosition.x());
     TCOD_keycode_t move;
@@ -117,12 +119,10 @@ void gct::BruteForceBot::constructWay(const gct::BruteForceBot::bestOptions &opt
 
     //std::random_shuffle(way.begin(), way.end());
 
-    if(opt.isVertical) { way.push_back(TCODK_SPACE); }
-
 
     way.push_back(TCODK_DOWN);
 
     std::reverse(way.begin(), way.end());
 
-    std::cout << "Constructed: " << way.size() << std::endl;
+    std::cout << "Constructed: " << way.size() << std::endl << std::endl;
 }

@@ -6,7 +6,7 @@ gct::GameController::GameController(int colorCount, int xSize, int ySize) :
         game(colorCount, xSize, ySize),
         render(game),
         bot(new BruteForceBot(game)),
-        timeForStep(0.1),
+        timeForStep(0.5),
         elapsedTime(0)
 {
     render.show();

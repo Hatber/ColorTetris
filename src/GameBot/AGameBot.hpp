@@ -10,7 +10,7 @@ namespace gct {
 
     class AGameBot {
     public:
-        AGameBot(const ColorTetris& ct) : game(ct), timeForStep(0.5), elapsedTime(0) { }
+        AGameBot(const ColorTetris& ct) : game(ct), timeForStep(0.2), elapsedTime(0) { }
 
         virtual void findWay() = 0;
 
