@@ -23,8 +23,16 @@ void gct::BruteForceBot::findWay() {
         preparedVGame.moveLeft();
     }
 
-    //Test vertical states
+    vector< int > xPositions;
+
     for(int x = 0; x < game.getBoard().getXSize(); x++) {
+        xPositions.push_back(x);
+    }
+    std::random_shuffle(xPositions.begin(), xPositions.end());
+
+    //Test vertical states
+    for(int xPos = 0; xPos < xPositions.size(); xPos++) {
+        int x = xPositions[xPos];
         for(int colorsCount = 0; colorsCount < 3; colorsCount++) {
             ColorTetris gameToTest(preparedVGame);
             for(int transposeCount = 0; transposeCount <= colorsCount; transposeCount++) {
@@ -59,8 +67,15 @@ void gct::BruteForceBot::findWay() {
         preparedHGame.moveLeft();
     }
 
+    xPositions.clear();
+    for(int x = 1; x < game.getBoard().getXSize()-1; x++) {
+        xPositions.push_back(x);
+    }
+    std::random_shuffle(xPositions.begin(), xPositions.end());
+
     //Test horizontal states
-    for(int x = 0; x < game.getBoard().getXSize()-2; x++) {
+    for(int xPos = 0; xPos < xPositions.size(); xPos++) {
+        int x = xPositions[xPos];
         for(int colorsCount = 0; colorsCount < 3; colorsCount++) {
             ColorTetris gameToTest(preparedHGame);
             for(int transposeCount = 0; transposeCount <= colorsCount; transposeCount++) {
