@@ -7,7 +7,7 @@ using std::endl;
 
 gct::ColorTetris::ColorTetris(int colorCount, int xSize, int ySize) :
         _colorCount(colorCount),
-        currentFigure(Figure(colorCount)), nextFigure(Figure(colorCount)),
+        currentFigure(Figure(2)), nextFigure(Figure(2)),
         _board(xSize, ySize), score(0), figureIsFixed(false)
 {
     renewFigurePosition();
@@ -15,7 +15,7 @@ gct::ColorTetris::ColorTetris(int colorCount, int xSize, int ySize) :
 
 void gct::ColorTetris::generateNewFigure() {
     currentFigure = nextFigure;
-    nextFigure = Figure(_colorCount);
+    nextFigure = Figure(calcDifficultyLevel() + 2);
 
     renewFigurePosition();
 }
