@@ -15,7 +15,9 @@ gct::ColorTetris::ColorTetris(int colorCount, int xSize, int ySize) :
 
 void gct::ColorTetris::generateNewFigure() {
     currentFigure = nextFigure;
-    nextFigure = Figure(calcDifficultyLevel() + 2);
+
+    int colorCount = std::min(9, calcDifficultyLevel() + 2);
+    nextFigure = Figure(colorCount);
 
     renewFigurePosition();
 }
@@ -45,6 +47,7 @@ bool gct::ColorTetris::removeMonochromeRegion() {
     rll::ConnectedRegionSearcher< int > searcher;
     rll::Area regions(searcher.search(_board));
 
+    int fullRegionSize = 0;
     int regionCount = searcher.regionCount();
     for(int regionId = 0; regionId < regionCount; regionId++) {
         if(regionContainFreeSpace(regions, regionId)) { continue; }
@@ -52,11 +55,13 @@ bool gct::ColorTetris::removeMonochromeRegion() {
         int regionSize = calculateRegionSize(regions, regionId);
         if(regionSize < 3) { continue; }
 
-        score += calcScore(regionSize);
+        fullRegionSize += regionSize;
         cleanRegion(regions, regionId);
 
         regionIsRemoved = true;
     }
+
+    score += calcScore(fullRegionSize);
 
     return regionIsRemoved;
 }
@@ -222,5 +227,5 @@ int gct::ColorTetris::calcScore(int regionSize) {
 }
 
 int gct::ColorTetris::calcDifficultyLevel() const {
-    return score / 100;
+    return score / 250;
 }
